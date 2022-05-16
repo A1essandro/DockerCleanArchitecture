@@ -6,6 +6,6 @@ public interface IAuthService
 {
 
     [Post("/CreateToken")]
-    Task<string> CreateToken();
+    Task<string> CreateToken([Body] string email, CancellationToken cancellationToken = default);
 
 }

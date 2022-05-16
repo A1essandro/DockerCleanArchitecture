@@ -5,13 +5,15 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="refit" Version="6.3.2" />
-		<PackageReference Include="refit.httpclientfactory" Version="6.3.2" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+		<PackageReference Include="refit" Version="6.3.2"/>
+		<PackageReference Include="refit.httpclientfactory" Version="6.3.2"/>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5"/>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.5"/>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\WebServices.Auth\WebServices.Auth.csproj" />
-		<ProjectReference Include="..\Infrastructure.Auth\Infrastructure.Auth.csproj" />
+		<ProjectReference Include="..\WebServices.Auth\WebServices.Auth.csproj"/>
+		<ProjectReference Include="..\Infrastructure.Auth\Infrastructure.Auth.csproj"/>
+		<ProjectReference Include="..\Infrastructure.Dal\Infrastructure.Dal.csproj"/>
 	</ItemGroup>
 </Project>

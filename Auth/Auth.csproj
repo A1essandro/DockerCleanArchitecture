@@ -6,13 +6,17 @@
 		<UserSecretsId>864a0ba8-0ce9-4e79-86f5-329bcc729519</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5"/>
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.4"/>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.5"/>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\WebServices.Auth\WebServices.Auth.csproj" />
-		<ProjectReference Include="..\Infrastructure.Common.Contracts\Infrastructure.Common.Contracts.csproj" />
-		<ProjectReference Include="..\Infrastructure.Common.Impl\Infrastructure.Common.Impl.csproj" />
-		<ProjectReference Include="..\Infrastructure.Auth\Infrastructure.Auth.csproj" />
+		<ProjectReference Include="..\WebServices.Auth\WebServices.Auth.csproj"/>
+		<ProjectReference Include="..\Infrastructure.Common.Contracts\Infrastructure.Common.Contracts.csproj"/>
+		<ProjectReference Include="..\Infrastructure.Common.Impl\Infrastructure.Common.Impl.csproj"/>
+		<ProjectReference Include="..\Infrastructure.Auth\Infrastructure.Auth.csproj"/>
+		<ProjectReference Include="..\Infrastructure.Dal\Infrastructure.Dal.csproj"/>
 	</ItemGroup>
 </Project>

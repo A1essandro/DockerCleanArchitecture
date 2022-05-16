@@ -4,11 +4,15 @@ services:
     container_name: auth
     environment:
       Authentication__Secret: "SHOULDBEINSECRETS"
+      ConnectionStrings__AppDbContext: "Host=db;Port=5432;Database=postgres;Username=postgres;Password=postgres"
     build:
       context: ./Auth
       dockerfile: ./Dockerfile
     ports:
       - "4001:80"
+    depends_on:
+      - db
+    command: [ "dotnet", "ef", "database update" ]
   api:
     container_name: api
     environment:
@@ -18,10 +22,16 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "4002:80"
+    depends_on:
+      - db
+      - auth
+    command: [ "dotnet", "ef", "database update" ]
   db:
     image: postgres:alpine
     restart: always
     container_name: db
+    volumes:
+      - dbvolume:/var/lib/postgresql/data
     ports:
       - 5432:5432
     environment:
@@ -36,3 +46,8 @@ services:
     container_name: adminer
     ports:
       - 8080:8080
+    depends_on:
+      - db
+volumes:
+  dbvolume:
+    driver: local
