@@ -2,8 +2,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Auth.Exceptions;
 using Core.Domain;
+using Core.Specifications;
 using Infrastructure.Auth;
-using Infrastructure.Common.Contracts;
+using Infrastructure.Contracts;
+using Infrastructure.Contracts.Repositories;
 using Infrastructure.Dal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,25 +20,45 @@ namespace Auth.Controllers;
 public class AuthController : ControllerBase, IAuthService
 {
 
-    private readonly AppDbContext _dbContext;
+    private readonly IRepository<User> _userRepo;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly ILogger<AuthController> _logger;
     private readonly AuthOptions _authConfig;
 
-    public AuthController(AppDbContext dbContext, IDateTimeProvider dateTimeProvider, ILogger<AuthController> logger, IOptions<AuthOptions> authConfig, IOptions<ConnectionStringOptions> opts)
+    public AuthController(IRepository<User> userRepo, IDateTimeProvider dateTimeProvider, ILogger<AuthController> logger, IOptions<AuthOptions> authConfig, IOptions<ConnectionStringOptions> opts)
     {
-        _dbContext = dbContext;
+        _userRepo = userRepo;
         _dateTimeProvider = dateTimeProvider;
         _logger = logger;
         _authConfig = authConfig.Value;
     }
 
+    [HttpGet]
+    public string Test()
+    {
+        return "OK";
+    }
+
     [HttpPost(nameof(CreateToken))]
     public async Task<string> CreateToken([FromBody] string email, CancellationToken cancellationToken = default)
     {
-        var user = await GetUser(email, cancellationToken); //TODO: entities in controller!
+        _logger.LogInformation("Creating token for useri with email {Email}", email);
+        var user = await GetUser(email, cancellationToken);
 
-        return GenerateToken(user);
+        var token = GenerateToken(user);
+
+        await AddTokenToUsersSessions(user, token, cancellationToken);
+
+        return token;
+    }
+
+    private async Task AddTokenToUsersSessions(User user, string token, CancellationToken cancellationToken)
+    {
+        user.Sessions.Add(new Session
+        {
+            Token = token
+        });
+        await _userRepo.Update(user, cancellationToken);
     }
 
     private string GenerateToken(User user)
@@ -58,13 +80,13 @@ public class AuthController : ControllerBase, IAuthService
 
     private async Task<User> GetUser(string email, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.Where(x => string.Equals(x.Email.ToUpper(), email.Trim().ToUpper())).SingleOrDefaultAsync(cancellationToken);
+        var users = await _userRepo.GetCollection(new ByEmailSpec(email), cancellationToken);
 
-        if (user == null)
+        if (users.Count == 0)
         {
             throw new HttpResponseException(401, "User not found");
         }
 
-        return user;
+        return users.Single();
     }
 }

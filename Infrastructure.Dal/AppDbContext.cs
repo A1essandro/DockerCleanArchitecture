@@ -1,7 +1,5 @@
 using Core.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Dal
 {
@@ -10,9 +8,6 @@ namespace Infrastructure.Dal
     {
 
         private static string ConnectionStringName = "App";
-
-        private readonly ILogger<AppDbContext> _logger;
-        private readonly IConfiguration _config;
 
         public AppDbContext(DbContextOptions options) : base(options)
         {

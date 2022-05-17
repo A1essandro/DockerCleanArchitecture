@@ -14,5 +14,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Core.Domain\Core.Domain.csproj" />
+		<ProjectReference Include="..\Infrastructure.Contracts\Infrastructure.Contracts.csproj" />
+		<ProjectReference Include="..\Core.Specifications\Core.Specifications.csproj" />
 	</ItemGroup>
 </Project>

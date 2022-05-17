@@ -13,8 +13,9 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.5"/>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\Core.Specifications\Core.Specifications.csproj"/>
 		<ProjectReference Include="..\WebServices.Auth\WebServices.Auth.csproj"/>
-		<ProjectReference Include="..\Infrastructure.Common.Contracts\Infrastructure.Common.Contracts.csproj"/>
+		<ProjectReference Include="..\Infrastructure.Contracts\Infrastructure.Contracts.csproj"/>
 		<ProjectReference Include="..\Infrastructure.Common.Impl\Infrastructure.Common.Impl.csproj"/>
 		<ProjectReference Include="..\Infrastructure.Auth\Infrastructure.Auth.csproj"/>
 		<ProjectReference Include="..\Infrastructure.Dal\Infrastructure.Dal.csproj"/>

@@ -1,9 +1,12 @@
 using Auth.Filters;
 using Infrastructure.Auth;
-using Infrastructure.Common.Contracts;
+using Infrastructure.Contracts;
 using Infrastructure.Common.Impl;
 using Infrastructure.Dal;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Contracts.Repositories;
+using Core.Domain;
+using Infrastructure.Dal.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +22,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-builder.Services.AddDbContext<AppDbContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString(nameof(AppDbContext))));
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
+
+builder.Services.AddDbContext<AppDbContext>(o
+    => o.UseNpgsql(builder.Configuration.GetConnectionString(nameof(AppDbContext))));
 
 builder.Services.Configure<AuthOptions>(
     builder.Configuration.GetSection(nameof(AuthOptions)));

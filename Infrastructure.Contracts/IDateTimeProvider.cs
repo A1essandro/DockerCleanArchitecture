@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Common.Contracts;
+﻿namespace Infrastructure.Contracts;
 
 public interface IDateTimeProvider
 {

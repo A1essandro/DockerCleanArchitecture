@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Auth", "Infr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{256E2B30-D3AE-11EC-821E-6F6F7CC7F1EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common.Contracts", "Infrastructure.Common.Contracts\Infrastructure.Common.Contracts.csproj", "{285405BF-AB45-4D03-A1F3-6B69B813CC1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Contracts", "Infrastructure.Contracts\Infrastructure.Contracts.csproj", "{285405BF-AB45-4D03-A1F3-6B69B813CC1B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common.Impl", "Infrastructure.Common.Impl\Infrastructure.Common.Impl.csproj", "{DBA8F1D7-8A32-488C-A1BC-66D2606B49EC}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", "Core.Domain\Core.Domain.csproj", "{28D1C590-8D27-4339-BB02-1E9826E81C26}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Dal", "Infrastructure.Dal\Infrastructure.Dal.csproj", "{C1239E8D-1151-49E8-B686-2C26C77AD726}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Specifications", "Core.Specifications\Core.Specifications.csproj", "{A5DE7D38-FEEF-4EF4-81A0-D30A78777AA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,8 +78,13 @@ Global
 		{C1239E8D-1151-49E8-B686-2C26C77AD726}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1239E8D-1151-49E8-B686-2C26C77AD726}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1239E8D-1151-49E8-B686-2C26C77AD726}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5DE7D38-FEEF-4EF4-81A0-D30A78777AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5DE7D38-FEEF-4EF4-81A0-D30A78777AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5DE7D38-FEEF-4EF4-81A0-D30A78777AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5DE7D38-FEEF-4EF4-81A0-D30A78777AA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{A5DE7D38-FEEF-4EF4-81A0-D30A78777AA8} = {C443C6B0-D50D-11EC-9546-C14B8FB10315}
 		{C1239E8D-1151-49E8-B686-2C26C77AD726} = {256E2B30-D3AE-11EC-821E-6F6F7CC7F1EB}
 		{28D1C590-8D27-4339-BB02-1E9826E81C26} = {C443C6B0-D50D-11EC-9546-C14B8FB10315}
 		{DBA8F1D7-8A32-488C-A1BC-66D2606B49EC} = {256E2B30-D3AE-11EC-821E-6F6F7CC7F1EB}
