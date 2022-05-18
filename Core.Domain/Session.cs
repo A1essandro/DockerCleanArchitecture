@@ -1,6 +1,8 @@
+using Core.Domain.Common;
+
 namespace Core.Domain;
 
-public class Session
+public class Session : Entity
 {
 
     public Guid Id { get; set; }

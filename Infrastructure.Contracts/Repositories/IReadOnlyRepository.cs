@@ -8,6 +8,8 @@ namespace Infrastructure.Contracts.Repositories
 
         Task<TEntity> Get(int id, CancellationToken cancellationToken = default);
 
+        Task<TEntity> Get(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);
+
         Task<IReadOnlyCollection<TEntity>> GetCollection(CancellationToken cancellationToken = default);
 
         Task<IReadOnlyCollection<TEntity>> GetCollection(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);

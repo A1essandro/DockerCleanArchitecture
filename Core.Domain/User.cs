@@ -2,7 +2,7 @@
 
 namespace Core.Domain;
 
-public class User : Entity
+public class User : UpdatableEntity
 {
 
     public string Email { get; set; }

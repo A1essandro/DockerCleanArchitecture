@@ -56,5 +56,10 @@ namespace Infrastructure.Dal.Repositories
             return await Entities.Where(specification.ToExpression()).ToArrayAsync(cancellationToken);
         }
 
+        public Task<TEntity> Get(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
+        {
+            return Entities.Where(specification.ToExpression()).SingleAsync(cancellationToken);
+        }
+
     }
 }
