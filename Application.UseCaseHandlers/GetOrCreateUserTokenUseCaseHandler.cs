@@ -27,19 +27,12 @@ internal class GetOrCreateUserTokenUseCaseHandler : IRequestHandler<GetOrCreateU
 
         var expiredTime = _dateTimeProvider.UtcNow.Subtract(_jwtService.Lifetime);
 
-        if (user.Sessions.Any(x => x.Created > expiredTime))
-        {
-            var session = user.Sessions.First(x => x.Created > expiredTime);
-
-            return session.Token;
-        }
+        if (user.HasSessionAfter(expiredTime))
+            return user.GetLastSession().Token;
 
         var token = _jwtService.GetToken(user);
 
-        user.Sessions.Add(new Session
-        {
-            Token = token
-        });
+        user.AddSessionToken(token);
         await _repo.Update(user, cancellationToken);
 
         return token;

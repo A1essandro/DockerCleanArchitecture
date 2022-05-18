@@ -19,7 +19,7 @@ public class JsonWebTokenService : IJsonWebTokenService
         _authConfig = authConfig.Value;
     }
 
-    public TimeSpan Lifetime => TimeSpan.FromMinutes(_authConfig.Lifetime);
+    public TimeSpan Lifetime => TimeSpan.FromSeconds(_authConfig.Lifetime);
 
     public string GetToken(User user)
     {

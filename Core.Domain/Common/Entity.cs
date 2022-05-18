@@ -1,12 +1,10 @@
-namespace Core.Domain.Common
+namespace Core.Domain.Common;
+
+public abstract class Entity
 {
-    public abstract class Entity
-    {
 
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public DateTime Created { get; set; }
-
-    }
+    public DateTime Created { get; set; }
 
 }

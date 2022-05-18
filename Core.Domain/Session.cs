@@ -5,7 +5,7 @@ namespace Core.Domain;
 public class Session : Entity
 {
 
-    public Guid Id { get; set; }
+    internal Session(string token) => Token = token;
 
     public int UserId { get; set; }
 
