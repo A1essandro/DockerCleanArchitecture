@@ -23,6 +23,13 @@ public class AuthController : ControllerBase, IAuthService
         _logger = logger;
     }
 
+    [HttpGet]
+    public Task<string> CreateToken(CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult("OK!!!!!!!!!");
+    }
+
+
     [HttpPost(nameof(CreateToken))]
     public Task<string> CreateToken([FromBody] string email, CancellationToken cancellationToken = default)
     {

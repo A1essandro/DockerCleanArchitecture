@@ -10,8 +10,24 @@ using Infrastructure.Dal.Repositories;
 using MediatR;
 using Application.UseCases;
 using Application.UseCaseHandlers;
+using App.Metrics;
+using App.Metrics.Formatters.Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+var metrics = new MetricsBuilder()
+    .OutputMetrics.AsPrometheusPlainText()
+    .Build();
+
+builder.WebHost
+       .ConfigureMetrics(metrics)
+       .UseMetricsWebTracking()
+       .UseMetricsEndpoints(options =>
+       {
+           options.EnvironmentInfoEndpointEnabled = false;
+           options.MetricsTextEndpointOutputFormatter = metrics.OutputMetricsFormatters.OfType<MetricsPrometheusTextOutputFormatter>().First();
+       });
 
 // Add services to the container.
 
@@ -45,7 +61,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.MapControllers();
 

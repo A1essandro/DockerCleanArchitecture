@@ -18,8 +18,8 @@ ENV ASPNETCORE_URLS="http://*:80"
 # WORKDIR /app
 # COPY --from=publish /app/publish .
 
-FROM base as app
-COPY ./bin/Debug/net6.0/ /app/
-WORKDIR /app
+# FROM base as app
+# COPY ./bin/Release/net6.0/ /app/
+# WORKDIR /app
 
 ENTRYPOINT ["dotnet", "Auth.dll"]
