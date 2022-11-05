@@ -1,0 +1,117 @@
+version: '3.4'
+services:
+  auth:
+    container_name: auth
+    environment:
+      Authentication__Secret: "SHOULDBEINSECRETS"
+      ConnectionStrings__AppDbContext: "Host=db;Port=5432;Database=postgres;Username=postgres;Password=postgres"
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      ASPNETCORE_Kestrel__Certificates__Default__Password: password
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+    build:
+      context: ./Auth
+      dockerfile: ./Dockerfile
+    ports:
+      - "4001:80"
+    depends_on:
+      - db
+    command: [ "dotnet", "ef", "database update" ]
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - ./Auth/bin/Release/net6.0/:/app
+    networks:
+      - net
+  api:
+    container_name: api
+    environment:
+      Authentication__Secret: "SHOULDBEINSECRETS"
+    build:
+      context: ./Api
+      dockerfile: ./Dockerfile
+    ports:
+      - "4002:80"
+    depends_on:
+      - db
+      - auth
+    command: [ "dotnet", "ef", "database update" ]
+    networks:
+      - net
+  db:
+    image: postgres:alpine
+    restart: always
+    container_name: db
+    volumes:
+      - dbvolume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+    networks:
+      - net
+  adminer:
+    image: adminer
+    restart: always
+    container_name: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - net
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./volumes/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    # restart: unless-stopped
+    networks:
+      - net
+    depends_on:
+      - cadvisor
+    ports:
+      - 9090:9090
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - 8000:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - net
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./volumes/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    # restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      - net
+volumes:
+  dbvolume:
+    driver: local
+  certs:
+    driver: local
+  prometheus_data: {}
+  grafana_data: {}
+networks:
+  net:
+    driver: bridge

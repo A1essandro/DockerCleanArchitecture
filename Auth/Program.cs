@@ -12,9 +12,12 @@ using Application.UseCases;
 using Application.UseCaseHandlers;
 using App.Metrics;
 using App.Metrics.Formatters.Prometheus;
+using Auth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var metrics = new MetricsBuilder()
     .OutputMetrics.AsPrometheusPlainText()
@@ -51,6 +54,12 @@ builder.Services.AddDbContext<AppDbContext>(o
 
 builder.Services.Configure<AuthOptions>(
     builder.Configuration.GetSection(nameof(AuthOptions)));
+
+builder.Services.AddHostedService<QueuedHostedService>();
+builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
+{
+    return new BackgroundTaskQueue(100);
+});
 
 var app = builder.Build();
 

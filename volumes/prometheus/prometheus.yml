@@ -44,6 +44,7 @@ scrape_configs:
       - auth
 
   - job_name: cadvisor
+    scrape_interval: 60s
     static_configs:
     - targets:
       - cadvisor:8080

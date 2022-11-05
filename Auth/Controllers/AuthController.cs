@@ -1,4 +1,5 @@
 using Application.UseCases;
+using Auth.Services;
 using Infrastructure.Auth;
 using Infrastructure.Contracts;
 using MediatR;
@@ -13,20 +14,31 @@ public class AuthController : ControllerBase, IAuthService
 {
 
     private readonly IMediator _mediator;
+    private readonly IBackgroundTaskQueue _queue;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly ILogger<AuthController> _logger;
     private readonly AuthOptions _authConfig;
 
-    public AuthController(IMediator mediator, ILogger<AuthController> logger)
+    public AuthController(IMediator mediator, IBackgroundTaskQueue queue, ILogger<AuthController> logger)
     {
         _mediator = mediator;
+        _queue = queue;
         _logger = logger;
     }
 
     [HttpGet]
-    public Task<string> CreateToken(CancellationToken cancellationToken = default)
+    public async Task<string> CreateToken(CancellationToken cancellationToken = default)
     {
-        return Task.FromResult("OK!!!!!!!!!");
+        _logger.LogInformation($"Before adding [{Thread.CurrentThread.ManagedThreadId}]");
+        await _queue.QueueBackgroundWorkItemAsync(async ct =>
+        {
+            _logger.LogInformation($"START [{Thread.CurrentThread.ManagedThreadId}]");
+            await Task.Delay(10000);
+            _logger.LogInformation($"FINISH [{Thread.CurrentThread.ManagedThreadId}]");
+        });
+        _logger.LogInformation($"After adding [{Thread.CurrentThread.ManagedThreadId}]");
+
+        return "OK!!!!!!!!!";
     }
 
 
